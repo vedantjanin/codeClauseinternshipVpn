@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VPN Session Dashboard</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background: #f4f6f8;
+      padding: 30px;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 30px;
+    }
+    table {
+      background: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="text-center">VPN Session Logs</h2>
+    <table class="table table-bordered table-striped">
+      <thead class="thead-dark">
+        <tr>
+          <th>#</th>
+          <th>IP Address</th>
+          <th>Connected At</th>
+          <th>Data Transferred (KB)</th>
+        </tr>
+      </thead>
+      <tbody id="sessionTable">
+        <!-- Dynamic rows go here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    async function loadSessions() {
+      try {
+        const res = await fetch('http://localhost:5000/api/vpn/sessions');
+        const sessions = await res.json();
+        const table = document.getElementById('sessionTable');
+        table.innerHTML = '';
+
+        sessions.forEach((session, index) => {
+          const row = `
+            <tr>
+              <td>${index + 1}</td>
+              <td>${session.ip || 'Unknown'}</td>
+              <td>${new Date(session.connectionTime).toLocaleString()}</td>
+              <td>${session.dataTransferred || 0}</td>
+            </tr>
+          `;
+          table.innerHTML += row;
+        });
+      } catch (err) {
+        console.error("Failed to load sessions:", err);
+      }
+    }
+
+    loadSessions();
+  </script>
+</body>
+</html>
