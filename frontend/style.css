@@ -1,0 +1,19 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+}
+
+#messages {
+  background: #f8f9fa;
+  padding: 10px;
+  border-radius: 6px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+#messages li {
+  background-color: #e2e3e5;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  padding: 10px;
+  word-wrap: break-word;
+}
